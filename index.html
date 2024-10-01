@@ -73,7 +73,7 @@
         // Fetch IP Address and Location Information
         async function fetchIPDetails() {
             try {
-                // Fetch IP address
+                // Fetch IP address from ipify
                 const ipResponse = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipResponse.json();
                 const ipAddress = ipData.ip;
@@ -81,17 +81,17 @@
                 // Display IP address
                 document.getElementById('ip-address-value').textContent = ipAddress;
 
-                // Fetch additional IP information (location, etc.)
-                const locationResponse = await fetch(`https://ipinfo.io/${ipAddress}/json?token=YOUR_API_TOKEN`); // Replace with your API token
+                // Fetch additional IP information (location, etc.) using a CORS-friendly API
+                const locationResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`);
                 const locationData = await locationResponse.json();
 
                 // Display IP information
                 const locationInfo = `
                     City: ${locationData.city}
                     Region: ${locationData.region}
-                    Country: ${locationData.country}
+                    Country: ${locationData.country_name}
                     Org: ${locationData.org}
-                    Location: ${locationData.loc}
+                    Location: ${locationData.latitude}, ${locationData.longitude}
                     Timezone: ${locationData.timezone}
                 `;
                 document.getElementById('ip-info').textContent = locationInfo;
