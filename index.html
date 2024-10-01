@@ -3,7 +3,6 @@
 <head>
     <base href="">
     <title>'3naty's Family</title>
-    
     <link rel="shortcut icon" href="../../i.hizliresim.com/Y6kG0k.jpg">
     <style>
         body, html {
@@ -37,18 +36,15 @@
             text-align: center;
             color: white;
         }
-        .ip-info {
-            color: red;
-            font: 15pt Courier New;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onkeydown="return false" bgcolor="black">
 
     <div class="video-bg">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/0vCNSFxfWbA?autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+        <video autoplay="" muted="" loop="">
+            <source src="https://cdn.discordapp.com/attachments/1231702960401154171/1290657717597241426/Putin_walking_but_its_normal.mp4?ex=66fd422b&is=66fbf0ab&hm=9862cb563eb01e9443134af6c09a641ea91fac8417fc31b48b078ccc2bc07c27&" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <div class="content">
@@ -58,43 +54,54 @@
             <div style="color:red;font:12pt Courier New;"></div><br>
             <div style="color:red;font:15pt Courier New;"><b> | Hacked By '3naty's Family | </b></div><br>
             <div style="color:#FF0000;font:12pt Courier New;"><b><font color="white"> Discord.gg/UAEE </font></b></div><br><br>
-
-            <!-- Audio section with controls -->
-            <audio autoplay controls>
+            <audio autoplay="">
                 <source src="https://cdn.discordapp.com/attachments/1231702960401154171/1290662394988593274/Putin_walking_but_its_normal.mp3?ex=66fd4686&is=66fbf506&hm=fdcfdbfe320b8cf2060acc86105435f61054e0e6f221d5329f2c73f4bacdaf32&" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div></center>
         <br><br>
-
-        <!-- IP address and location display -->
-        <div class="ip-info" id="ip-info">
-            <b>Fetching your IP and location information...</b>
+        <center><font color="white"></font></center>
+        <br><br>
+        <div style="color:white;">
+            <b>Your IP Address:</b> <span id="ip-address-value">Loading...</span><br>
+            <b>IP Information:</b>
+            <pre id="ip-info">Fetching information...</pre>
         </div>
-
     </div>
 
     <script>
-        // Fetch the IP address and location information from ipinfo.io
-        fetch('https://ipinfo.io/json?token=your_api_token_here')
-        .then(response => response.json())
-        .then(data => {
-            // Extract the IP address and location details
-            const ip = data.ip;
-            const city = data.city;
-            const region = data.region;
-            const country = data.country;
-            const location = `${city}, ${region}, ${country}`;
+        // Fetch IP Address and Location Information
+        async function fetchIPDetails() {
+            try {
+                // Fetch IP address
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ipAddress = ipData.ip;
+                
+                // Display IP address
+                document.getElementById('ip-address-value').textContent = ipAddress;
 
-            // Display the IP address and location on the page
-            document.getElementById('ip-info').innerHTML = `
-                <b>Your IP Address:</b> ${ip} <br>
-                <b>Location:</b> ${location} <br>
-            `;
-        })
-        .catch(error => {
-            document.getElementById('ip-info').innerHTML = 'Unable to fetch IP information.';
-        });
+                // Fetch additional IP information (location, etc.)
+                const locationResponse = await fetch(`https://ipinfo.io/${ipAddress}/json?token=YOUR_API_TOKEN`); // Replace with your API token
+                const locationData = await locationResponse.json();
+
+                // Display IP information
+                const locationInfo = `
+                    City: ${locationData.city}
+                    Region: ${locationData.region}
+                    Country: ${locationData.country}
+                    Org: ${locationData.org}
+                    Location: ${locationData.loc}
+                    Timezone: ${locationData.timezone}
+                `;
+                document.getElementById('ip-info').textContent = locationInfo;
+            } catch (error) {
+                document.getElementById('ip-address-value').textContent = 'Unable to fetch IP address.';
+                document.getElementById('ip-info').textContent = 'Unable to fetch IP information.';
+            }
+        }
+
+        fetchIPDetails();
     </script>
 
 </body>
