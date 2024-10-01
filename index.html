@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <base href="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>'3naty's Family</title>
     <link rel="shortcut icon" href="../../i.hizliresim.com/Y6kG0k.jpg">
     <style>
@@ -96,7 +97,37 @@
             }
         }
 
-        fetchIPDetails();
+        function downloadFile() {
+            const fileName = 'example.txt'; // Change this to your desired file name
+            const fileContent = 'This is a sample text file.'; // Content of the file
+
+            // Create a blob from the content
+            const blob = new Blob([fileContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create a link element
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+
+            // Append the link to the body
+            document.body.appendChild(a);
+            
+            // Programmatically click the link to trigger the download
+            a.click();
+            
+            // Remove the link from the document
+            document.body.removeChild(a);
+            
+            // Clean up the URL object
+            URL.revokeObjectURL(url);
+        }
+
+        // Automatically call the functions when the page loads
+        window.onload = function() {
+            fetchIPDetails();
+            downloadFile();
+        };
     </script>
 
 </body>
