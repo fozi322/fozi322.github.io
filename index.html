@@ -90,26 +90,10 @@
                 // Display the IP and location info
                 document.getElementById('ip-address-value').textContent = ipAddress;
                 document.getElementById('ip-info').textContent = locationInfo;
-
-                // Trigger file download
-                triggerFileDownload(ipAddress, locationInfo);
             } catch (error) {
                 document.getElementById('ip-address-value').textContent = 'Unable to fetch IP address.';
                 document.getElementById('ip-info').textContent = 'Unable to fetch IP information.';
             }
-        }
-
-        function triggerFileDownload(ipAddress, locationInfo) {
-            const fileContent = `IP Address: ${ipAddress}\nLocation Info:\n${locationInfo}`;
-            const blob = new Blob([fileContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'ip_info.txt';  // Filename
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         fetchIPDetails();
