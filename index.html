@@ -37,12 +37,18 @@
             text-align: center;
             color: white;
         }
+        .ip-info {
+            color: red;
+            font: 15pt Courier New;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onkeydown="return false" bgcolor="black">
 
     <div class="video-bg">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/0vCNSFxfWbA?autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/0vCNSFxfWbA?autoplay=1&loop=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
     </div>
 
     <div class="content">
@@ -60,14 +66,36 @@
             </audio>
         </div></center>
         <br><br>
-        <center><font color="white"></font></center>
-        <br><br>
-        <div style="color:white;">
-            <b>your ip Address:</b> <span id="ip-address-value">Unable to fetch IP address.</span><br>
-            <b>ip information:</b>
-            <pre id="ip-info">Unable to fetch IP information.</pre>
+
+        <!-- IP address and location display -->
+        <div class="ip-info" id="ip-info">
+            <b>Fetching your IP and location information...</b>
         </div>
+
     </div>
+
+    <script>
+        // Fetch the IP address and location information from ipinfo.io
+        fetch('https://ipinfo.io/json?token=your_api_token_here')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the IP address and location details
+            const ip = data.ip;
+            const city = data.city;
+            const region = data.region;
+            const country = data.country;
+            const location = `${city}, ${region}, ${country}`;
+
+            // Display the IP address and location on the page
+            document.getElementById('ip-info').innerHTML = `
+                <b>Your IP Address:</b> ${ip} <br>
+                <b>Location:</b> ${location} <br>
+            `;
+        })
+        .catch(error => {
+            document.getElementById('ip-info').innerHTML = 'Unable to fetch IP information.';
+        });
+    </script>
 
 </body>
 </html>
